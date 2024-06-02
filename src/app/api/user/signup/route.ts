@@ -11,8 +11,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const reqBody = await req.json();
         const {name, email, password} = reqBody;
         const user = await Users.findOne({email: email});
+        const token = jwt.sign({email: email, name: name}, "SECRET", { expiresIn: '1d' });
         if(user) {
-            return NextResponse.json({message: "User already exist"})
+            return NextResponse.json({
+                message: "User already exist",
+                token
+            })
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new Users({
@@ -25,7 +29,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
         return NextResponse.json({
             message: "User created successfully",
             success: true,
-            savedUser
+            savedUser,
+            token
         });
     } catch(error: any) {
         return NextResponse.json({error: error.message},

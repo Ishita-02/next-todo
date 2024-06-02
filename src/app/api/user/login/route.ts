@@ -11,6 +11,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const reqBody = await req.json();
         const {email, password} = reqBody;
         const user = await Users.findOne({email: email});
+        const token = jwt.sign({email: email}, "SECRET", { expiresIn: '1d' });
+
         if(!user) {
             return NextResponse.json({message: "User does not exist"});
         }
@@ -19,13 +21,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
         if(passwordMatch) {
             return NextResponse.json({
                 message: "Logged In successfully",
-                success: true
+                success: true,
+                token
             });
         }
 
         return NextResponse.json({
             message: "Password incorrect",
-            success: false
+            success: false,
+            token
         });        
         
     } catch(error: any) {

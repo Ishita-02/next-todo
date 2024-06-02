@@ -5,7 +5,8 @@ const todoSchema = new mongoose.Schema({
         type: String
     },
     completed: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     timestamp: {
         type: Date
@@ -15,6 +16,6 @@ const todoSchema = new mongoose.Schema({
     }
 })
 
-const Todo = mongoose.model('Todo', todoSchema);
+const Todo = mongoose.models.Todo || mongoose.model('Todo', todoSchema);
 
 export default Todo;
