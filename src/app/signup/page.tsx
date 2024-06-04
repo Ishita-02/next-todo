@@ -20,6 +20,7 @@ export default function SignupPage() {
             setLoading(true);
             const response = await axios.post('/api/user/signup', user);
             console.log("Signup success", response.data);
+            localStorage.setItem('token', response.data.token)
             toast.success('You are successfully signed up');
             router.push('/login');
         } catch (error: any) {

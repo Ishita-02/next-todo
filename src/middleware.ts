@@ -32,7 +32,7 @@ export async function middleware(req: NextRequest) {
 // Configure the middleware to apply to specific paths
 export const config = {
     matcher: [
-        '/createTodo',
-        '/getAllTodos',
+        '/api/user/createTodo',
+        '/api/user/getAllTodos',
     ],
 };
