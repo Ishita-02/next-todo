@@ -17,14 +17,19 @@ export default function createTodoPage() {
     const createTodoButton = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('/api/user/createTodo', todos, {
+            console.log('Token', token)
+            const response = await axios.post('/api/user/createTodo', {todo: todos.todo}, {
                 headers: {
-                    'Authorization': `Token ${token} `
+                    'Authorization': `Bearer ${token} `
                 }
             });
             console.log(response.data)
-            toast.success("Todo created successfully");
-            router.push('/')
+            if(response.data.status != 200) {
+                toast.error("Todo not created")
+            } else {
+                toast.success("Todo created successfully");
+                router.push('/')
+            }
         } catch(error: any) {
             toast.error("Error", error)
         }

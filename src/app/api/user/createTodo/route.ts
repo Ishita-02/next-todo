@@ -8,9 +8,10 @@ export async function POST(req: NextRequest, res: NextResponse): Promise<NextRes
     try {
         const reqBody = await req.json();
         const { todo } = reqBody;
+        console.log(todo)
 
         const userId = req.headers.get("userId");
-
+        console.log(userId)
         if (!userId) {
             return NextResponse.json({ error: "Unauthorized: No user ID found" }, { status: 401 });
         }
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest, res: NextResponse): Promise<NextRes
             timestamp: Date.now(),
             user: userId
         });
-
+        
         const savedTodo = await newTodo.save();
 
         return NextResponse.json({

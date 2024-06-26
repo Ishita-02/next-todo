@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken';
 
 // Middleware function to authenticate JWT
 export async function middleware(req: NextRequest) {
-    const authHeader = req.headers.get('authorization');
+    const authHeader = req.headers.get('Authorization');
     
     if (!authHeader) {
         return NextResponse.json({ status: 401, message: 'Unauthorized: No token provided' });
